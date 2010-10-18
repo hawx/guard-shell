@@ -13,7 +13,7 @@ a very quick guide.
     end
 
 
-#### Rebuilding a Latex File
+#### Rebuilding a LaTeX File
 
     guard 'shell' do
       # builds latex file to pdf and hides output
@@ -27,5 +27,5 @@ a very quick guide.
       watch('(.*)') {|m| `say #{m[0]}` }
     end
     
-    
+
 And pretty much anything else you can think of!

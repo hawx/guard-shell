@@ -4,7 +4,7 @@ require 'guard/guard'
 module Guard
   class Shell < Guard
   
-    VERSION = '0.1'
+    VERSION = '0.1.1'
 
     # Print the result of the command, if there is a result
     # to be printed. (see README.md)

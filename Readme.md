@@ -24,7 +24,13 @@ And then add a basic setup to your Guardfile:
 ## Usage
 
 If you can do something in your shell, it is probably very easy to setup with 
-guard-shell, here are a few examples.
+guard-shell. It can take an option, `:all_on_start` which will, if set to true,
+run all tasks on start.
+
+There is also a shortcut method, `#n(msg, title='')`, which can be used to 
+display a notification within your watch blocks. See the examples for usage.
+
+### Examples
 
 #### Printing the Name of the File You Changed
 
@@ -33,10 +39,13 @@ guard-shell, here are a few examples.
       watch(/(.*)/) {|m| m[0] + " was just changed" }
     end
 
-#### Saying the Name of the File You Changed
+#### Saying the Name of the File You Changed and Displaying a Notification
 
     guard :shell do
-      watch(/(.*)/) {|m| `say -v cello #{m[0]}` }
+      watch /(.*)/ do |m| 
+        n m[0], 'Changed'
+        `say -v cello #{m[0]}`
+      end
     end
 
 #### Rebuilding LaTeX 
@@ -47,8 +56,9 @@ guard-shell, here are a few examples.
         `rm #{m[1]}.log`
         
         count = `texcount -inc -nc -1 somehting.tex`.split('+').first
-        "-> built #{m[1]}.pdf (#{count} words)"
+        msg = "built #{m[1]}.pdf (#{count} words)"
+        n msg, 'LaTeX'
+        "-> built #{msg}"
       end
     end
-    
     

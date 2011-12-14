@@ -12,7 +12,7 @@ Install the gem with:
 
     gem install guard-shell
 
-Add it to your Gemfile:
+Or add it to your Gemfile:
 
     gem 'guard-shell'
 
@@ -23,37 +23,32 @@ And then add a basic setup to your Guardfile:
 
 ## Usage
 
-If you can do something in your shell, it is probably very easy to setup with guard-shell, here are a few examples.
+If you can do something in your shell, it is probably very easy to setup with 
+guard-shell, here are a few examples.
 
+#### Printing the Name of the File You Changed
 
-#### Creating Backups of Files On Change
-
-    guard 'shell' do
-      # create a copy of the file with '.backup' at the end
-      watch(/(.*)/) {|m| `cp #{m[0]} #{m[0]}.backup` }
+    guard :shell do
+      # if the block returns something, it will be passed to `#puts`
+      watch(/(.*)/) {|m| m[0] + " was just changed" }
     end
-
-
-#### Showing git st
-
-    guard 'shell' do
-      watch(/.*/) { `git st` }
-    end
-
-
-#### Rebuilding a LaTeX File
-
-    guard 'shell' do
-      # builds latex file to pdf and hides output
-      watch(/(.*).tex/) do |m| 
-        `pdflatex -shell-escape #{m[0]} 1>/dev/null`
-        puts "built #{m[1]}.pdf"
-      end
-    end
-
 
 #### Saying the Name of the File You Changed
 
-    guard 'shell' do
-      watch(/(.*)/) {|m| `say #{m[0]}` }
+    guard :shell do
+      watch(/(.*)/) {|m| `say -v cello #{m[0]}` }
     end
+
+#### Rebuilding LaTeX 
+
+    guard :shell do
+      watch /^([^\/]*)\.tex/ do |m|
+        `pdflatex -shell-escape #{m[0]}`
+        `rm #{m[1]}.log`
+        
+        count = `texcount -inc -nc -1 somehting.tex`.split('+').first
+        "-> built #{m[1]}.pdf (#{count} words)"
+      end
+    end
+    
+    

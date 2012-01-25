@@ -8,14 +8,14 @@ Gem::Specification.new do |s|
   s.summary      = "Guard gem for running shell commands"
   s.homepage     = "http://github.com/hawx/guard-shell"
   s.version      = Guard::Shell::VERSION
-  
+
   s.description  = <<-DESC
-    Guard::Shell automatically runs shell commands when watched files are 
+    Guard::Shell automatically runs shell commands when watched files are
     modified.
   DESC
-  
+
   s.add_dependency 'guard', '>= 0.2.0'
-  
-  s.files        = %w(README.md LICENSE)
+
+  s.files        = %w(Readme.md LICENSE)
   s.files       += Dir["{lib}/**/*"]
 end

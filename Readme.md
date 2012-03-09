@@ -27,8 +27,9 @@ If you can do something in your shell, it is probably very easy to setup with
 guard-shell. It can take an option, `:all_on_start` which will, if set to true,
 run all tasks on start.
 
-There is also a shortcut method, `#n(msg, title='')`, which can be used to
-display a notification within your watch blocks. See the examples for usage.
+There is also a shortcut method, `#n(msg, title='', image=:success)`, which can 
+be used to display a notification within your watch blocks. See the examples for 
+usage.
 
 ### Examples
 
@@ -62,15 +63,14 @@ display a notification within your watch blocks. See the examples for usage.
       end
     end
 
-#### Check File, throw failed on false return
+#### Check Syntax of Ruby File
 
     guard :shell do
-        watch /(.*\.rb$) do |m|
-            case (system 'ruby -c #{m[0]}')
-                when true
-                    n "#{m[0]} Syntax ok", 'Ruby', 'success'
-                when false
-                    n "#{m[0]} Syntax check failed", 'Ruby', 'failed'
-            end
+      watch /(.*\.rb$) do |m|
+        if system('ruby -c #{m[0]}')
+          n "#{m[0]} Syntax ok", 'Ruby', :success
+        else
+          n "#{m[0]} Syntax check failed", 'Ruby', :failed
         end
+      end
     end

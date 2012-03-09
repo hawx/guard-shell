@@ -61,3 +61,16 @@ display a notification within your watch blocks. See the examples for usage.
         "-> #{msg}"
       end
     end
+
+#### Check File, throw failed on false return
+
+    guard :shell do
+        watch /(.*\.rb$) do |m|
+            case (system 'ruby -c #{m[0]}')
+                when true
+                    n "#{m[0]} Syntax ok", 'Ruby', 'success'
+                when false
+                    n "#{m[0]} Syntax check failed", 'Ruby', 'failed'
+            end
+        end
+    end

@@ -5,7 +5,7 @@ require 'guard/watcher'
 module Guard
   class Shell < Guard
 
-    VERSION = '0.3.1'
+    VERSION = '0.4.0'
 
     # Calls #run_all if the :all_on_start option is present.
     def start

@@ -22,24 +22,45 @@ And then add a basic setup to your Guardfile:
 
 ## Usage
 
-If you can do something in your shell, it is probably very easy to setup with
-guard-shell. It can take an option, `:all_on_start` which will, if set to true,
-run all tasks on start.
-
-There is also a shortcut method, `#n(msg, title='', image=nil)`, which can 
-be used to display a notification within your watch blocks. The image can be either 
-`:success`, `:pending` or `:failed`. See the examples for usage. 
-
-### Examples
-
-#### Printing the Name of the File You Changed
+If you can do something in your shell, or in ruby, you can do it when a file changes
+with guard-shell. It simply executes the block passed to watch if a change is 
+detected, and if anything is returned from the block it will be printed. For example
 
 ``` ruby
 guard :shell do
-  # if the block returns something, it will be printed with `puts`
-  watch(/(.*)/) {|m| m[0] + " was just changed" }
+  watch /.*/ do |m|
+    m[0] + " has changed."
+  end
 end
 ```
+
+will simply print a message telling you a file has been changed when it is changed.
+This admittedly isn't a very useful example, but you hopefully get the idea. To run
+everything on start pass `:all_on_start` to `#guard`,
+
+``` ruby
+guard :shell, :all_on_start => true do
+  # ...
+end
+```
+
+There is also a shortcut for easily creating notifications,
+
+``` ruby
+guard :shell do
+  watch /.*/ do |m|
+    n m[0], 'File Changed'
+  end
+end
+```
+
+`#n` takes up to three arguments; the first is the body of the message, here the path
+of the changed file; the second is the title for the notification; and the third is
+the image to use. There are three (four counting `nil` the default) different images
+that can be specified `:success`, `:pending` and `:failed`.
+
+
+### Examples
 
 #### Saying the Name of the File You Changed and Displaying a Notification
 
@@ -68,7 +89,7 @@ guard :shell, :all_on_start => true do
 end
 ```
 
-#### Check Syntax of Ruby File
+#### Check Syntax of a Ruby File
 
 ``` ruby
 guard :shell do

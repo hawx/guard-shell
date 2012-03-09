@@ -1,7 +1,6 @@
 # Guard::Shell
 
-This little addition to guard allows you to run shell commands when files are
-altered.
+This little guard allows you to run shell commands when files are altered.
 
 
 ## Install
@@ -27,50 +26,58 @@ If you can do something in your shell, it is probably very easy to setup with
 guard-shell. It can take an option, `:all_on_start` which will, if set to true,
 run all tasks on start.
 
-There is also a shortcut method, `#n(msg, title='', image=:success)`, which can 
-be used to display a notification within your watch blocks. See the examples for 
-usage.
+There is also a shortcut method, `#n(msg, title='', image=nil)`, which can 
+be used to display a notification within your watch blocks. The image can be either 
+`:success`, `:pending` or `:failed`. See the examples for usage. 
 
 ### Examples
 
 #### Printing the Name of the File You Changed
 
-    guard :shell do
-      # if the block returns something, it will be printed with `puts`
-      watch(/(.*)/) {|m| m[0] + " was just changed" }
-    end
+``` ruby
+guard :shell do
+  # if the block returns something, it will be printed with `puts`
+  watch(/(.*)/) {|m| m[0] + " was just changed" }
+end
+```
 
 #### Saying the Name of the File You Changed and Displaying a Notification
 
-    guard :shell do
-      watch /(.*)/ do |m|
-        n m[0], 'Changed'
-        `say -v cello #{m[0]}`
-      end
-    end
+``` ruby
+guard :shell do
+  watch /(.*)/ do |m|
+    n m[0], 'Changed'
+    `say -v cello #{m[0]}`
+  end
+end
+```
 
 #### Rebuilding LaTeX
 
-    guard :shell do
-      watch /^([^\/]*)\.tex/ do |m|
-        `pdflatex -shell-escape #{m[0]}`
-        `rm #{m[1]}.log`
+``` ruby
+guard :shell, :all_on_start => true do
+  watch /^([^\/]*)\.tex/ do |m|
+    `pdflatex -shell-escape #{m[0]}`
+    `rm #{m[1]}.log`
 
-        count = `texcount -inc -nc -1 #{m[0]}`.split('+').first
-        msg = "Built #{m[1]}.pdf (#{count} words)"
-        n msg, 'LaTeX'
-        "-> #{msg}"
-      end
-    end
+    count = `texcount -inc -nc -1 #{m[0]}`.split('+').first
+    msg = "Built #{m[1]}.pdf (#{count} words)"
+    n msg, 'LaTeX'
+    "-> #{msg}"
+  end
+end
+```
 
 #### Check Syntax of Ruby File
 
-    guard :shell do
-      watch /(.*\.rb$) do |m|
-        if system('ruby -c #{m[0]}')
-          n "#{m[0]} Syntax ok", 'Ruby', :success
-        else
-          n "#{m[0]} Syntax check failed", 'Ruby', :failed
-        end
-      end
+``` ruby
+guard :shell do
+  watch /.*\.rb$/ do |m|
+    if system('ruby -c #{m[0]}')
+      n "#{m[0]} is correct", 'Ruby Syntax', :success
+    else
+      n "#{m[0]} is incorrect", 'Ruby Syntax', :failed
     end
+  end
+end
+```

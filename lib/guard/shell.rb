@@ -26,7 +26,7 @@ module Guard
 
   class Dsl
     # Easy method to display a notification
-    def n(msg, title='', image=:success)
+    def n(msg, title='', image=nil)
       Notifier.notify(msg, :title => title, :image => image)
     end
   end

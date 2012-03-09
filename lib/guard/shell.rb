@@ -5,7 +5,7 @@ require 'guard/watcher'
 module Guard
   class Shell < Guard
 
-    VERSION = '0.3.0'
+    VERSION = '0.3.1'
 
     # Calls #run_all if the :all_on_start option is present.
     def start
@@ -26,8 +26,8 @@ module Guard
 
   class Dsl
     # Easy method to display a notification
-    def n(msg, title='')
-      ::Guard::Notifier.notify(msg, :title => title)
+    def n(msg, title='', image='success')
+      Notifier.notify(msg, :title => title, :image => :"#{image}")
     end
   end
 end

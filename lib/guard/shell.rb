@@ -18,7 +18,7 @@ module Guard
     end
 
     # Print the result of the command(s), if there are results to be printed.
-    def run_on_change(res)
+    def run_on_changes(res)
       puts res if res
     end
 

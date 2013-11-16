@@ -29,5 +29,25 @@ module Guard
     def n(msg, title='', image=nil)
       Notifier.notify(msg, :title => title, :image => image)
     end
+
+    # Eager prints the result for stdout and stderr as it would be written when
+    # running the command from the terminal. This is useful for long running
+    # tasks.
+    def eager(command)
+      require 'pty'
+
+      begin
+        PTY.spawn command do |r, w, pid|
+          begin
+            puts
+            r.each {|line| print line }
+          rescue Errno::EIO
+            # the process has finished
+          end
+        end
+      rescue PTY::ChildExited
+        puts "The child process exited!"
+      end
+    end
   end
 end

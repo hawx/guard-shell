@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
-require 'guard/shell/version'
+require File.expand_path("../lib/guard/shell/version", __FILE__)
 
 Gem::Specification.new do |s|
   s.name         = "guard-shell"
@@ -8,6 +7,7 @@ Gem::Specification.new do |s|
   s.email        = "m@hawx.me"
   s.summary      = "Guard gem for running shell commands"
   s.homepage     = "http://github.com/hawx/guard-shell"
+  s.license      = 'MIT'
   s.version      = Guard::ShellVersion::VERSION
 
   s.description  = <<-DESC

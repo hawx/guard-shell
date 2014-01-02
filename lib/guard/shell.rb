@@ -11,7 +11,7 @@ module Guard
       run_all if options[:all_on_start]
     end
 
-    # Defined only for make callback(:stop_begin) and callback(:stop_end) working
+    # Defined only to make callback(:stop_begin) and callback(:stop_end) working
     def stop
     end
 

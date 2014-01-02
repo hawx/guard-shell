@@ -11,6 +11,10 @@ module Guard
       run_all if options[:all_on_start]
     end
 
+    # Defined only for make callback(:stop_begin) and callback(:stop_end) working
+    def stop
+    end
+
     # Call #run_on_change for all files which match this guard.
     def run_all
       run_on_modifications(Watcher.match_files(self, Dir.glob('{,**/}*{,.*}').uniq))

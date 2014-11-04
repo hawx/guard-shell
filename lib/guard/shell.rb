@@ -1,10 +1,9 @@
 require 'guard'
-require 'guard/guard'
-require 'guard/watcher'
+require 'guard/plugin'
 require 'guard/shell/version'
 
 module Guard
-  class Shell < Guard
+  class Shell < Plugin
 
     # Calls #run_all if the :all_on_start option is present.
     def start

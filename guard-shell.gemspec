@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   DESC
 
   s.add_dependency 'guard', '>= 2.0.0'
+  s.add_dependency 'guard-compat', '~> 1.0'
 
   s.files        = %w(Readme.md LICENSE)
   s.files       += Dir["{lib}/**/*"]

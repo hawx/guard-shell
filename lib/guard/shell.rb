@@ -1,5 +1,4 @@
-require 'guard'
-require 'guard/plugin'
+require 'guard/compat/plugin'
 require 'guard/shell/version'
 
 module Guard
@@ -16,12 +15,12 @@ module Guard
 
     # Call #run_on_change for all files which match this guard.
     def run_all
-      run_on_modifications(Watcher.match_files(self, Dir.glob('{,**/}*{,.*}').uniq))
+      run_on_modifications(Compat.matching_files(self, Dir.glob('{,**/}*{,.*}')))
     end
 
     # Print the result of the command(s), if there are results to be printed.
     def run_on_modifications(res)
-      puts res if res
+      $stdout.puts res if res
     end
 
   end
@@ -29,7 +28,7 @@ module Guard
   class Dsl
     # Easy method to display a notification
     def n(msg, title='', image=nil)
-      Notifier.notify(msg, :title => title, :image => image)
+      Compat::UI.notify(msg, :title => title, :image => image)
     end
 
     # Eager prints the result for stdout and stderr as it would be written when
@@ -41,14 +40,14 @@ module Guard
       begin
         PTY.spawn command do |r, w, pid|
           begin
-            puts
+            $stdout.puts
             r.each {|line| print line }
           rescue Errno::EIO
             # the process has finished
           end
         end
       rescue PTY::ChildExited
-        puts "The child process exited!"
+        $stdout.puts "The child process exited!"
       end
     end
   end

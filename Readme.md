@@ -13,11 +13,15 @@ Install the gem with:
 
 Or add it to your Gemfile:
 
-    gem 'guard-shell'
+```ruby
+gem 'guard-shell'
+```
 
 And then add a basic setup to your Guardfile:
 
-    guard init shell
+```ruby
+guard init shell
+```
 
 
 ## Usage
@@ -26,7 +30,7 @@ If you can do something in your shell, or in ruby, you can do it when a file cha
 with guard-shell. It simply executes the block passed to watch if a change is 
 detected, and if anything is returned from the block it will be printed. For example
 
-``` ruby
+```ruby
 guard :shell do
   watch /.*/ do |m|
     m[0] + " has changed."
@@ -38,7 +42,7 @@ will simply print a message telling you a file has been changed when it is chang
 This admittedly isn't a very useful example, but you hopefully get the idea. To run
 everything on start pass `:all_on_start` to `#guard`,
 
-``` ruby
+```ruby
 guard :shell, :all_on_start => true do
   # ...
 end
@@ -46,7 +50,7 @@ end
 
 There is also a shortcut for easily creating notifications,
 
-``` ruby
+```ruby
 guard :shell do
   watch /.*/ do |m|
     n m[0], 'File Changed'
@@ -64,7 +68,7 @@ that can be specified `:success`, `:pending` and `:failed`.
 
 #### Saying the Name of the File You Changed and Displaying a Notification
 
-``` ruby
+```ruby
 guard :shell do
   watch /(.*)/ do |m|
     n m[0], 'Changed'
@@ -75,7 +79,7 @@ end
 
 #### Rebuilding LaTeX
 
-``` ruby
+```ruby
 guard :shell, :all_on_start => true do
   watch /^([^\/]*)\.tex/ do |m|
     `pdflatex -shell-escape #{m[0]}`
@@ -91,7 +95,7 @@ end
 
 #### Check Syntax of a Ruby File
 
-``` ruby
+```ruby
 guard :shell do
   watch /.*\.rb$/ do |m|
     if system("ruby -c #{m[0]}")

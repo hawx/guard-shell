@@ -1,5 +1,7 @@
 # Guard::Shell
 
+> Please see <https://github.com/sdwolfz/guard-shell> for the currently maintained repo. 
+
 This little guard allows you to run shell commands when files are altered.
 
 
